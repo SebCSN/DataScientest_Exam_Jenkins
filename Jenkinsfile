@@ -37,10 +37,6 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    docker compose down
-                    docker rm -f datascientest_exam_jenkins-movie_service-1
-                    docker rm -f datascientest_exam_jenkins-movie_service-1
-                    docker rm -f datascientest_exam_jenkins-nginx-1
                     docker compose up -d
                     sleep 10
                     '''
@@ -63,6 +59,19 @@ pipeline {
                 script {
                     sh '''
                     curl http://localhost:8080/api/v1/casts/docs
+                    '''
+                }
+            }
+        }
+
+        stage('Arret du service lancé par le docker-compose'){ 
+            steps {
+                script {
+                    sh '''
+		    docker compose down
+                    docker rm -f datascientest_exam_jenkins-movie_service-1
+                    docker rm -f datascientest_exam_jenkins-movie_service-1
+                    docker rm -f datascientest_exam_jenkins-nginx-1
                     '''
                 }
             }
