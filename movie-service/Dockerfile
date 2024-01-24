@@ -12,3 +12,6 @@ RUN pip install -r /app/requirements.txt \
     && rm -rf /root/.cache/pip
 
 COPY . /app/
+
+# Définit la commande par défaut à exécuter lorsque le conteneur est lancé. Ici, on lance l'application avec Uvicorn en écoutant sur l'adresse 0.0.0.0 et le port 5678.
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "5678"]
