@@ -1,3 +1,32 @@
+movie_service:
+  image:
+    repository: dockersebc/movie_service
+    pullPolicy: IfNotPresent
+    tag: ""
+
+cast_service:
+  image:
+    repository: dockersebc/cast_service
+    pullPolicy: IfNotPresent
+    tag: ""
+
+
+database:
+  movie:
+    user: movie_db_username
+    password: movie_db_password
+    dbName: movie_db_dev
+
+  cast:
+    user: cast_db_username
+    password: cast_db_password
+    dbName: cast_db_dev
+
+
+
+
+
+
 # Default values for examjenkins.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.

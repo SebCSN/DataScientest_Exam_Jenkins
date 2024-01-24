@@ -18,3 +18,11 @@ Learn to build your own microservice using Python and FastAPI
 	- <ip_machine>:8001/api/v1/movies/docs
 	- <ip_machine>:8002/api/v1/casts/docs
  - Permet de tester aussi le push enclenche Jenkins
+
+## Etape n°3 : 
+ - Sur le serveur, création du namespace dev à l'aide de la commande `kubectl create namespace dev`
+ - Test de déploiement des services sur le namespace dev en utilisant un ingress qui basique (sans utiliser les variables contenues dans values)
+ - Création sur cloudns.net d'un domaine dev.exam-jenkins.seb-coasne.cloudns.biz lié au serveur sur lequel est hébergé mon cluster
+ - Les services devoient être accsibles aux adresses suivantes :
+	- http://dev.exam-jenkins.seb-coasne.cloudns.biz/api/v1/casts/docs
+	- http://dev.exam-jenkins.seb-coasne.cloudns.biz/api/v1/movies/docs

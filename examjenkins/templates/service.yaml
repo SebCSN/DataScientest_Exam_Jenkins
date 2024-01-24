@@ -1,15 +1,53 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "examjenkins.fullname" . }}
-  labels:
-    {{- include "examjenkins.labels" . | nindent 4 }}
+  name: movie-service
 spec:
-  type: {{ .Values.service.type }}
-  ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
   selector:
-    {{- include "examjenkins.selectorLabels" . | nindent 4 }}
+    app: movie-service
+  ports:
+    - protocol: TCP
+      port: 8002
+      targetPort: 5678 # Port Conteneur Dockerfile movie-service
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: cast-service
+spec:
+  selector:
+    app: cast-service
+  ports:
+    - protocol: TCP
+      port: 8001
+      targetPort: 1234 # Port Conteneur Dockerfile cast-service
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: cast-db
+spec:
+  selector:
+    app: cast-db
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: movie-db
+spec:
+  selector:
+    app: movie-db
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
