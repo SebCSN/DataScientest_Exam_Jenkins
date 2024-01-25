@@ -23,6 +23,11 @@ Learn to build your own microservice using Python and FastAPI
  - Sur le serveur, création du namespace dev à l'aide de la commande `kubectl create namespace dev`
  - Test de déploiement des services sur le namespace dev en utilisant un ingress qui basique (sans utiliser les variables contenues dans values)
  - Création sur cloudns.net d'un domaine dev.exam-jenkins.seb-coasne.cloudns.biz lié au serveur sur lequel est hébergé mon cluster
- - Les services devoient être accsibles aux adresses suivantes :
+ - Les services devoient être accessibles aux adresses suivantes :
 	- http://dev.exam-jenkins.seb-coasne.cloudns.biz/api/v1/casts/docs
 	- http://dev.exam-jenkins.seb-coasne.cloudns.biz/api/v1/movies/docs
+
+## Etape n°4 :
+ - Fractionnement des fichiers pour rendre le code plus lisible
+ - Transformation des deploiement pour les base de données en statefulset
+ - Amélioration de la lisibilité du Jenkinsfile

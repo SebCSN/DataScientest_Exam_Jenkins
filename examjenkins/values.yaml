@@ -1,136 +1,96 @@
-movie_service:
-  image:
-    repository: dockersebc/movie_service
-    pullPolicy: IfNotPresent
-    tag: ""
-
 cast_service:
-  image:
-    repository: dockersebc/cast_service
-    pullPolicy: IfNotPresent
-    tag: ""
+  nom: cast-service
+  label: cast-service
+
+  deployment: # Info à passer au Deployment
+    conteneur: 
+      nom: cast-service-conteneur
+      image:
+        repository: dockersebc/cast_service
+        tag: ""
+      port: 1234 # Port Conteneur Dockerfile cast-service
+  
+  service: # Info à passer au service
+    type: ClusterIP
+    protocol: TCP
+    port: 8001 # Port à lier à l'ingress
+    targetPort: 1234 # Port Conteneur Dockerfile cast-service
+
+############################################################################
+
+cast_bdd:
+  nom: cast-db
+  label: cast-db
+
+  statefulset: # Info à passer au StatefulSet
+    utilisateur: cast_db_username
+    mdp: cast_db_password
+    conteneur:
+      nom: cast-bd-conteneur
+      image: postgres:12.1-alpine
+      port: 5432
+  
+  service: # Info à passer au service
+    type: ClusterIP
+    protocol: TCP
+    port: 5432
+    targetPort: 5432
 
 
-database:
-  movie:
-    user: movie_db_username
-    password: movie_db_password
-    dbName: movie_db_dev
+############################################################################
 
-  cast:
-    user: cast_db_username
-    password: cast_db_password
-    dbName: cast_db_dev
+movie_service:
+  nom: movie-service
+  label: movie-service
+  
+  deployment: # Info à passer au Deployment
+    conteneur: 
+      nom: movie-service-conteneur
+      image:
+        repository: dockersebc/movie_service
+        tag: ""
+      port: 5678 # Port Conteneur Dockerfile movie-service
+  
+  service: # Info à passer au service
+    type: ClusterIP
+    protocol: TCP
+    port: 8002 # Port à lier à l'ingress
+    targetPort: 5678 # Port Conteneur Dockerfile movie-service
 
 
+############################################################################
+
+movie_bdd:
+  nom: movie-db
+  label: movie-db
+
+  statefulset: # Info à passer au StatefulSet
+    utilisateur: movie_db_username
+    mdp: movie_db_password
+    conteneur:
+      nom: movie-db-conteneur
+      image: postgres:12.1-alpine
+      port: 5432
+
+  service: # Info à passer au service
+    type: ClusterIP
+    protocol: TCP
+    port: 5432
+    targetPort: 5432
 
 
+############################################################################
 
+ingress: # Info à passer à l'Ingress
+  nom: examjenkins-ingress
+  domaine: "dev.exam-jenkins.seb-coasne.cloudns.biz"
 
-# Default values for examjenkins.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+  service1:
+    path: /api/v1/casts
+    nom: cast-service
+    nbport : 8001 # Port Service cast_service
 
-replicaCount: 1
-
-image:
-  repository: nginx
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
-
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
-
-serviceAccount:
-  # Specifies whether a service account should be created
-  create: true
-  # Automatically mount a ServiceAccount's API credentials?
-  automount: true
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
-
-podAnnotations: {}
-podLabels: {}
-
-podSecurityContext: {}
-  # fsGroup: 2000
-
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-
-service:
-  type: ClusterIP
-  port: 80
-
-ingress:
-  enabled: false
-  className: ""
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: chart-example.local
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
-
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
-
-livenessProbe:
-  httpGet:
-    path: /
-    port: http
-readinessProbe:
-  httpGet:
-    path: /
-    port: http
-
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
-
-# Additional volumes on the output Deployment definition.
-volumes: []
-# - name: foo
-#   secret:
-#     secretName: mysecret
-#     optional: false
-
-# Additional volumeMounts on the output Deployment definition.
-volumeMounts: []
-# - name: foo
-#   mountPath: "/etc/foo"
-#   readOnly: true
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
+  service2:
+    path: /api/v1/movies
+    nom: movie-service 
+    nbport : 8002 # Port Service movie_service

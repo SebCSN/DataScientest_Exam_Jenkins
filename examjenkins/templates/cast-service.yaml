@@ -1,0 +1,42 @@
+# Deployment pour le service cast
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.cast_service.nom }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.cast_service.label }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.cast_service.label }}
+    spec:
+      containers:
+      - name: {{ .Values.cast_service.deployment.conteneur.nom }}
+        image: "{{ .Values.cast_service.deployment.conteneur.image.repository }}:{{ .Values.cast_service.deployment.conteneur.image.tag }}"
+        ports:
+        - containerPort: {{ .Values.cast_service.deployment.conteneur.port }}
+        env:
+        - name: DATABASE_URI
+          value: "postgresql://{{ .Values.cast_bdd.statefulset.utilisateur }}:{{ .Values.cast_bdd.statefulset.mdp }}@cast-db/{{ .Values.cast_bdd.nom }}"
+      restartPolicy: Always  # Politique de redémarrage
+
+---
+
+# Service pour le service cast
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.cast_service.nom }}
+spec:
+  selector:
+    app: {{ .Values.cast_service.label }}
+  type: {{ .Values.cast_service.service.type }}
+  ports:
+  - protocol: {{ .Values.cast_service.service.protocol }}
+    port: {{ .Values.cast_service.service.port }}
+    targetPort: {{ .Values.cast_service.service.targetPort }}

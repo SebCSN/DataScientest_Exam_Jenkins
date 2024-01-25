@@ -1,0 +1,45 @@
+# StatefulSet pour la base de données de movie
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.movie_bdd.nom }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.movie_bdd.label }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.movie_bdd.label }} # has to match .spec.selector.matchLabels
+    spec:
+      containers:
+      - name: {{ .Values.movie_bdd.statefulset.conteneur.nom }}
+        image: {{ .Values.movie_bdd.statefulset.conteneur.image }}
+        ports:
+        - containerPort: {{ .Values.movie_bdd.statefulset.conteneur.port }}
+        env:
+        - name: POSTGRES_USER
+          value: {{ .Values.movie_bdd.statefulset.utilisateur }}
+        - name: POSTGRES_PASSWORD
+          value: {{ .Values.movie_bdd.statefulset.mdp }}
+        - name: POSTGRES_DB
+          value: {{ .Values.movie_bdd.nom }}
+
+---
+
+# Service pour la base de données de movie
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.movie_bdd.nom }}
+spec:
+  selector:
+    app: {{ .Values.movie_bdd.label }}
+  type: {{ .Values.movie_bdd.service.type }}
+  ports:
+  - protocol: {{ .Values.movie_bdd.service.protocol }}
+    port: {{ .Values.movie_bdd.service.port }}
+    targetPort: {{ .Values.movie_bdd.service.targetPort }}

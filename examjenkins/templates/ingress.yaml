@@ -1,25 +1,24 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: examjenkins-ingress
-  namespace: dev
+  name: {{ .Values.ingress.nom }}
 spec:
   ingressClassName: traefik
   rules:
-    - host: dev.exam-jenkins.seb-coasne.cloudns.biz
+    - host: {{ .Values.ingress.domaine }}
       http:
         paths:
-          - path: /api/v1/movies
+          - path: {{ .Values.ingress.service1.path }}
             pathType: Prefix
             backend:
               service:
-                name: movie-service
+                name: {{ .Values.ingress.service1.nom }}
                 port:
-                  number: 8002 # Port ./examjenkins/templates/service.yml
-          - path: /api/v1/casts
+                  number: {{ .Values.ingress.service1.nbport }}
+          - path:  {{ .Values.ingress.service2.path }}
             pathType: Prefix
             backend:
               service:
-                name: cast-service
+                name: {{ .Values.ingress.service2.nom }}
                 port:
-                  number: 8001 # Port ./examjenkins/templates/service.yml
+                  number: {{ .Values.ingress.service2.nbport }}

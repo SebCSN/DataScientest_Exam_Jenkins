@@ -1,0 +1,42 @@
+# Deployment pour le service movie
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.movie_service.nom }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.movie_service.label }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.movie_service.label }}
+    spec:
+      containers:
+      - name: {{ .Values.movie_service.deployment.conteneur.nom }}
+        image: "{{ .Values.movie_service.deployment.conteneur.image.repository }}:{{ .Values.movie_service.deployment.conteneur.image.tag }}"
+        ports:
+        - containerPort: {{ .Values.movie_service.deployment.conteneur.port }}
+        env:
+        - name: DATABASE_URI
+          value: "postgresql://{{ .Values.movie_bdd.statefulset.utilisateur }}:{{ .Values.movie_bdd.statefulset.mdp }}@movie-db/{{ .Values.movie_bdd.nom }}"
+      restartPolicy: Always  # Politique de redémarrage
+
+---
+
+# Service pour le service movie
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.movie_service.nom }}
+spec:
+  selector:
+    app: {{ .Values.movie_service.label }}
+  type: {{ .Values.movie_service.service.type }}
+  ports:
+  - protocol: {{ .Values.movie_service.service.protocol }}
+    port: {{ .Values.movie_service.service.port }}
+    targetPort: {{ .Values.movie_service.service.targetPort }}
