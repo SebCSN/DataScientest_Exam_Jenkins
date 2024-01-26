@@ -31,3 +31,6 @@ Learn to build your own microservice using Python and FastAPI
  - Fractionnement des fichiers pour rendre le code plus lisible
  - Transformation des deploiement pour les base de données en statefulset
  - Amélioration de la lisibilité du Jenkinsfile
+
+## Etape n°5 :
+ Gestion de la persistance des données 

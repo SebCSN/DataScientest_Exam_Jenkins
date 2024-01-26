@@ -26,6 +26,18 @@ spec:
           value: {{ .Values.movie_bdd.statefulset.mdp }}
         - name: POSTGRES_DB
           value: {{ .Values.movie_bdd.nom }}
+        volumeMounts:
+        - name: movie-db-data
+          mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+  - metadata:
+      name: movie-db-data
+    spec:
+      storageClassName: local-path
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
 
 ---
 

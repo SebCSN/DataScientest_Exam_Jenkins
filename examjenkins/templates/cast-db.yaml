@@ -26,6 +26,18 @@ spec:
           value: {{ .Values.cast_bdd.statefulset.mdp }}
         - name: POSTGRES_DB
           value: {{ .Values.cast_bdd.nom }}
+        volumeMounts:
+        - name: cast-db-data
+          mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+  - metadata:
+      name: cast-db-data
+    spec:
+      storageClassName: local-path
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
 
 ---
 
