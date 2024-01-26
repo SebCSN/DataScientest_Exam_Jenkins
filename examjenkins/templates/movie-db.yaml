@@ -27,17 +27,20 @@ spec:
         - name: POSTGRES_DB
           value: {{ .Values.movie_bdd.nom }}
         volumeMounts:
-        - name: movie-db-data
-          mountPath: /var/lib/postgresql/data
+        - name: {{ .Values.movie_bdd.volume.nom }}
+          mountPath: {{ .Values.movie_bdd.volume.cheminMontage }}
   volumeClaimTemplates:
   - metadata:
-      name: movie-db-data
+      name: {{ .Values.movie_bdd.volume.nom }}
     spec:
-      storageClassName: local-path
-      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ .Values.movie_bdd.volume.storageClassName }}
+      accessModes:
+        {{- range .Values.movie_bdd.volume.accessModes }}
+          - {{ . }}
+        {{- end }}
       resources:
         requests:
-          storage: 1Gi
+          storage: {{ .Values.movie_bdd.volume.storage }}
 
 ---
 

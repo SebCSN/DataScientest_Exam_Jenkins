@@ -27,17 +27,20 @@ spec:
         - name: POSTGRES_DB
           value: {{ .Values.cast_bdd.nom }}
         volumeMounts:
-        - name: cast-db-data
-          mountPath: /var/lib/postgresql/data
+        - name: {{ .Values.cast_bdd.volume.nom }}
+          mountPath: {{ .Values.cast_bdd.volume.cheminMontage }}
   volumeClaimTemplates:
   - metadata:
-      name: cast-db-data
+      name: {{ .Values.cast_bdd.volume.nom }}
     spec:
-      storageClassName: local-path
-      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ .Values.cast_bdd.volume.storageClassName }}
+      accessModes:
+        {{- range .Values.cast_bdd.volume.accessModes }}
+          - {{ . }}
+        {{- end }}
       resources:
         requests:
-          storage: 1Gi
+          storage: {{ .Values.cast_bdd.volume.storage }}
 
 ---
 

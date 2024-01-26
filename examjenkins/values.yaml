@@ -35,7 +35,14 @@ cast_bdd:
     protocol: TCP
     port: 5432
     targetPort: 5432
-
+  
+  volume: # Info à passer pour la persistance des données
+    nom: cast-db-data
+    cheminMontage: /var/lib/postgresql/data
+    storageClassName: local-path
+    accesModes:
+      - ReadWriteOnce
+    storage: 1Gi
 
 ############################################################################
 
@@ -77,7 +84,14 @@ movie_bdd:
     protocol: TCP
     port: 5432
     targetPort: 5432
-
+  
+  volume: # Info à passer pour la persistance des données
+    nom: movie-db-data
+    cheminMontage: /var/lib/postgresql/data
+    storageClassName: local-path
+    accesModes:
+      - ReadWriteOnce
+    storage: 1Gi
 
 ############################################################################
 
