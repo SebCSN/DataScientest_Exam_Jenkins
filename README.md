@@ -35,25 +35,27 @@ Learn to build your own microservice using Python and FastAPI
 ## Etape n°5 :
  Gestion de la persistance des données 
 
-## Etape FIX BUG : 
- - Correction du Fichier docker-compose.yaml et du fichier nginx_config.conf afin de rediriger vers les bons ports en cas de déploiement avec docker-compose.
+## Etape FIX BUG 1 : 
+ - Correction du Fichier docker-compose.yaml et du fichier nginx_config.conf afin de rediriger vers les bons ports en cas de déploiem>
  - On joint les services déployés par compose en allant aux adresses :
-	- http://dockercompose.seb-coasne.cloudns.biz:8081/api/v1/movies/docs
-	- http://dockercompose.seb-coasne.cloudns.biz:8081/api/v1/casts/docs
+    - http://dockercompose.seb-coasne.cloudns.biz:8081/api/v1/movies/docs
+    - http://dockercompose.seb-coasne.cloudns.biz:8081/api/v1/casts/docs
  - Remarques :
-	- Inversion des ports 8001 et 8002 dans le docker compose pour rester cohérent avec ce que j'ai réalisé dans les fichiers helms 
-	- Lorsqu'on crée un movie, on renssigne de cette façon : 
-	```JSON
-{
-  "name": "string",
-  "plot": "string",
-  "genres": [
-    "string"
-  ],
-  "casts_id": [
-    0
-  ]
-}
-```
- Si on souhaite compléter par un entier dans le tableau du champs "casts_id", il faut d'abord ajouter un cast avec l'id donné.
+    - Inversion des ports 8001 et 8002 dans le docker compose pour rester cohérent avec ce que j'ai réalisé dans les fichiers hel>
+    - Lorsqu'on crée un movie, on renssigne de cette façon :
+      ```JSON
+      {
+        "name": "string",
+        "plot": "string",
+        "genres": [
+          "string"
+        ],
+        "casts_id": [
+          0
+        ]
+      }
+      ```
+    Si on souhaite compléter par un entier dans le tableau du champs "casts_id", il faut d'abord ajouter un cast avec l'id donné.
 
+## Etape FIX BUG 2 : 
+ - Rajout de la variable d'environnement CAST_SERVICE_HOST_URL au service movie_service pour qu'il puisse communiquer avec le service cast_service
