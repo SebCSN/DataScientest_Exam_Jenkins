@@ -51,6 +51,8 @@ movie_service:
   label: movie-service
   
   deployment: # Info à passer au Deployment
+    utilisateur: movie_db_username
+    mdp: movie_db_password
     conteneur: 
       nom: movie-service-conteneur
       image:
@@ -64,8 +66,6 @@ movie_service:
     port: 8002 # Port à lier à l'ingress
     targetPort: 5678 # Port Conteneur Dockerfile movie-service
 
-  secret: # Info à passer pour le secret
-    nom: movie-service-secret
 
 ############################################################################
 
@@ -93,7 +93,7 @@ movie_bdd:
       - ReadWriteOnce
     storage: 1Gi
   
-  secret: # Info à passer pour le secret
+  secret:
     nom: movie-db-secret
 
 ############################################################################

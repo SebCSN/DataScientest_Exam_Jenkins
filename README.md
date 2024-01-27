@@ -59,3 +59,6 @@ Learn to build your own microservice using Python and FastAPI
 
 ## Etape FIX BUG 2 : 
  - Rajout de la variable d'environnement CAST_SERVICE_HOST_URL au service movie_service pour qu'il puisse communiquer avec le service cast_service
+
+## Etape n°6 :
+ - Création des secrets pour movie-service et movie-db mais avec les valeurs (nom d'utilisateur, mdp, ...) toujours dans le code

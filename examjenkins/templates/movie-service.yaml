@@ -19,11 +19,9 @@ spec:
         image: "{{ .Values.movie_service.deployment.conteneur.image.repository }}:{{ .Values.movie_service.deployment.conteneur.image.tag }}"
         ports:
         - containerPort: {{ .Values.movie_service.deployment.conteneur.port }}
-        env:
-        - name: CAST_SERVICE_HOST_URL
-          value: "http://{{ .Values.cast_service.nom }}:{{ .Values.cast_service.service.port }}/api/v1/casts/"
-        - name: DATABASE_URI
-          value: "postgresql://{{ .Values.movie_bdd.statefulset.utilisateur }}:{{ .Values.movie_bdd.statefulset.mdp }}@movie-db/{{ .Values.movie_bdd.nom }}"
+        envFrom:
+          - secretRef:
+              name: {{ .Values.movie_service.secret.nom }}
       restartPolicy: Always  # Politique de redémarrage
 
 ---
