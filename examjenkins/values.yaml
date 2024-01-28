@@ -16,6 +16,9 @@ cast_service:
     port: 8001 # Port à lier à l'ingress
     targetPort: 1234 # Port Conteneur Dockerfile cast-service
 
+  secret: # Info à passer pour le secret
+    nom: cast-service-secret
+
 ############################################################################
 
 cast_bdd:
@@ -23,8 +26,6 @@ cast_bdd:
   label: cast-db
 
   statefulset: # Info à passer au StatefulSet
-    utilisateur: cast_db_username
-    mdp: cast_db_password
     conteneur:
       nom: cast-bd-conteneur
       image: postgres:12.1-alpine
@@ -43,6 +44,9 @@ cast_bdd:
     accesModes:
       - ReadWriteOnce
     storage: 1Gi
+
+  secret: # Info à passer pour le secret
+    nom: cast-db-secret
 
 ############################################################################
 

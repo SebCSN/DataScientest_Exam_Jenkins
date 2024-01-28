@@ -64,3 +64,4 @@ Learn to build your own microservice using Python and FastAPI
  - Création des secrets pour movie-service et movie-db mais avec les valeurs (nom d'utilisateur, mdp, ...) toujours dans le code
  - Stockage des infos sensibles dans des fichiers qu'il suffira de rajouter dans le gitignore pour éviter d'apparaitre dans le depot, de télécharger sur le serveur pour pouvoir être utilisés 
 	+ Suppression d'un fichier créé erreur values.yam
+ - Création des secrets pour cast-service et cast-db

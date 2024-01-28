@@ -19,13 +19,9 @@ spec:
         image: {{ .Values.cast_bdd.statefulset.conteneur.image }}
         ports:
         - containerPort: {{ .Values.cast_bdd.statefulset.conteneur.port }}
-        env:
-        - name: POSTGRES_USER
-          value: {{ .Values.cast_bdd.statefulset.utilisateur }}
-        - name: POSTGRES_PASSWORD
-          value: {{ .Values.cast_bdd.statefulset.mdp }}
-        - name: POSTGRES_DB
-          value: {{ .Values.cast_bdd.nom }}
+        envFrom:
+          - secretRef:
+              name: {{ .Values.cast_bdd.secret.nom }}        
         volumeMounts:
         - name: {{ .Values.cast_bdd.volume.nom }}
           mountPath: {{ .Values.cast_bdd.volume.cheminMontage }}

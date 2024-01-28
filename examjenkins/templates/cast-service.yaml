@@ -19,9 +19,9 @@ spec:
         image: "{{ .Values.cast_service.deployment.conteneur.image.repository }}:{{ .Values.cast_service.deployment.conteneur.image.tag }}"
         ports:
         - containerPort: {{ .Values.cast_service.deployment.conteneur.port }}
-        env:
-        - name: DATABASE_URI
-          value: "postgresql://{{ .Values.cast_bdd.statefulset.utilisateur }}:{{ .Values.cast_bdd.statefulset.mdp }}@cast-db/{{ .Values.cast_bdd.nom }}"
+        envFrom:
+          - secretRef:
+              name: {{ .Values.cast_service.secret.nom }}
       restartPolicy: Always  # Politique de redémarrage
 
 ---
