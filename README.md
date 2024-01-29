@@ -65,3 +65,17 @@ Learn to build your own microservice using Python and FastAPI
  - Stockage des infos sensibles dans des fichiers qu'il suffira de rajouter dans le gitignore pour éviter d'apparaitre dans le depot, de télécharger sur le serveur pour pouvoir être utilisés 
 	+ Suppression d'un fichier créé erreur values.yam
  - Création des secrets pour cast-service et cast-db
+
+ ## Etape n°7 :
+ - Ajout de 4 fichiers values pour gérer les déploiements dans les 4 namespaces différents
+ - Le fichier values.yaml contiendra les valeurs communes aux 4 namespaces et les 4 autres fichiers pourront gérer les valeurs spécifiques aux différents namespaces
+ - Mise à jour du Jenkinsfile pour déployer dans les 4 namespaces
+ - Les services devoient être accessibles aux adresses suivantes :
+    - http://dev.exam-jenkins.seb-coasne.cloudns.biz/api/v1/casts/docs
+    - http://dev.exam-jenkins.seb-coasne.cloudns.biz/api/v1/movies/docs
+    - http://qa.exam-jenkins.seb-coasne.cloudns.biz/api/v1/casts/docs
+    - http://qa.exam-jenkins.seb-coasne.cloudns.biz/api/v1/movies/docs
+    - http://staging.exam-jenkins.seb-coasne.cloudns.biz/api/v1/casts/docs
+    - http://staging.exam-jenkins.seb-coasne.cloudns.biz/api/v1/movies/docs
+    - http://prod.exam-jenkins.seb-coasne.cloudns.biz/api/v1/casts/docs
+    - http://prod.exam-jenkins.seb-coasne.cloudns.biz/api/v1/movies/docs

@@ -109,7 +109,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-		    docker compose down
+		            docker compose down
                     docker rm -f datascientest_exam_jenkins-movie_service-1
                     docker rm -f datascientest_exam_jenkins-cast_service-1
                     docker rm -f datascientest_exam_jenkins-nginx-1
@@ -135,10 +135,65 @@ pipeline {
                             rm -Rf .kube
                             mkdir .kube
                             cat $KUBECONFIG > .kube/config
+                            cp examjenkins/values-dev.yaml values-dev.yml
                             cp examjenkins/values.yaml values.yml
                             cat values.yml
                             sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
-                            helm upgrade --install app examjenkins -f values.yml --namespace dev
+                            helm upgrade --install app examjenkins --values=values.yml --values=values-dev.yml --namespace dev
+                            '''
+                        }
+                    }
+                }
+
+                stage('Deploiement en qa'){
+                    steps {
+                        script {
+                            sh '''
+                            rm -Rf .kube
+                            mkdir .kube
+                            cat $KUBECONFIG > .kube/config
+                            cp examjenkins/values-qa.yaml values-qa.yml
+                            cp examjenkins/values.yaml values.yml
+                            cat values.yml
+                            sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
+                            helm upgrade --install app examjenkins --values=values.yml --values=values-qa.yml --namespace qa
+                            '''
+                        }
+                    }
+                }
+
+                stage('Deploiement en staging'){
+                    steps {
+                        script {
+                            sh '''
+                            rm -Rf .kube
+                            mkdir .kube
+                            cat $KUBECONFIG > .kube/config
+                            cp examjenkins/values-staging.yaml values-staging.yml
+                            cp examjenkins/values.yaml values.yml
+                            cat values.yml
+                            sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
+                            helm upgrade --install app examjenkins --values=values.yml --values=values-staging.yml --namespace staging
+                            '''
+                        }
+                    }
+                }
+
+                stage('Deploiement en prod'){
+                    steps {
+                        timeout(time: 15, unit: 'MINUTES') {
+                            input(message: 'Do you want to deploy in production ?', ok: 'Yes')
+                        }
+                        script {
+                            sh '''
+                            rm -Rf .kube
+                            mkdir .kube
+                            cat $KUBECONFIG > .kube/config
+                            cp examjenkins/values-prod.yaml values-prod.yml
+                            cp examjenkins/values.yaml values.yml
+                            cat values.yml
+                            sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
+                            helm upgrade --install app examjenkins --values=values.yml --values=values-prod.yml --namespace prod
                             '''
                         }
                     }

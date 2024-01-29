@@ -1,3 +1,5 @@
+# Fichier avec les valeurs communes aux 4 namespaces
+
 cast_service:
   nom: cast-service
   label: cast-service
@@ -41,7 +43,7 @@ cast_bdd:
     nom: cast-db-data
     cheminMontage: /var/lib/postgresql/data
     storageClassName: local-path
-    accesModes:
+    accessModes:
       - ReadWriteOnce
     storage: 1Gi
 
@@ -93,7 +95,7 @@ movie_bdd:
     nom: movie-db-data
     cheminMontage: /var/lib/postgresql/data
     storageClassName: local-path
-    accesModes:
+    accessModes:
       - ReadWriteOnce
     storage: 1Gi
   
@@ -104,7 +106,7 @@ movie_bdd:
 
 ingress: # Info à passer à l'Ingress
   nom: examjenkins-ingress
-  domaine: "dev.exam-jenkins.seb-coasne.cloudns.biz"
+  domaine: "exam-jenkins.seb-coasne.cloudns.biz"
 
   service1:
     path: /api/v1/casts
